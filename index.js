@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
-import Modal from 'react-native-modal';
-import Hcaptcha from './Hcaptcha';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import { SafeAreaView, StyleSheet, Dimensions, Platform } from "react-native";
+import Modal from "react-native-modal";
+import Hcaptcha from "./Hcaptcha";
+import PropTypes from "prop-types";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 class ConfirmHcaptcha extends PureComponent {
   state = {
@@ -16,8 +16,9 @@ class ConfirmHcaptcha extends PureComponent {
   hide = (source) => {
     const { onMessage } = this.props;
     this.setState({ show: false });
-    if (source) { // if source === undefined => called by the user
-      onMessage({ nativeEvent: { data: 'cancel' } });
+    if (source) {
+      // if source === undefined => called by the user
+      onMessage({ nativeEvent: { data: "cancel" } });
     }
   };
   render() {
@@ -42,6 +43,8 @@ class ConfirmHcaptcha extends PureComponent {
       imghost,
       host,
       hasBackdrop,
+      footerComponent,
+      topComponent,
     } = this.props;
 
     return (
@@ -50,16 +53,17 @@ class ConfirmHcaptcha extends PureComponent {
         hideModalContentWhileAnimating
         deviceHeight={height}
         deviceWidth={width}
-        style={[styles.modal, {display: passiveSiteKey ? 'none' : undefined}]}
+        style={[styles.modal, { display: passiveSiteKey ? "none" : undefined }]}
         animationIn="fadeIn"
         animationOut="fadeOut"
-        onBackdropPress={() => this.hide('backdrop')}
-        onBackButtonPress={() => this.hide('back_button')}
+        onBackdropPress={() => this.hide("backdrop")}
+        onBackButtonPress={() => this.hide("back_button")}
         isVisible={show}
         hasBackdrop={!passiveSiteKey && hasBackdrop}
         coverScreen={!passiveSiteKey}
       >
         <SafeAreaView style={[styles.wrapper, { backgroundColor }]}>
+          {topComponent}
           <Hcaptcha
             url={baseUrl}
             size={size}
@@ -79,6 +83,7 @@ class ConfirmHcaptcha extends PureComponent {
             imghost={imghost}
             host={host}
           />
+          {footerComponent}
         </SafeAreaView>
       </Modal>
     );
@@ -88,16 +93,16 @@ class ConfirmHcaptcha extends PureComponent {
 const styles = StyleSheet.create({
   text: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#fff",
+    textAlign: "center",
     marginTop: 10,
   },
-  modal: { margin: 0, display: 'none' },
+  modal: { margin: 0, display: "none" },
   wrapper: {
     flex: 1,
-    justifyContent: 'center',
-    overflow: 'hidden',
+    justifyContent: "center",
+    overflow: "hidden",
   },
 });
 
@@ -124,15 +129,15 @@ ConfirmHcaptcha.propTypes = {
 };
 
 ConfirmHcaptcha.defaultProps = {
-  size: 'invisible',
+  size: "invisible",
   passiveSiteKey: false,
   showLoading: false,
-  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  backgroundColor: "rgba(0, 0, 0, 0.3)",
   loadingIndicatorColor: null,
-  theme: 'light',
+  theme: "light",
   rqdata: null,
   sentry: false,
-  jsSrc: 'https://js.hcaptcha.com/1/api.js',
+  jsSrc: "https://js.hcaptcha.com/1/api.js",
   endpoint: undefined,
   reportapi: undefined,
   assethost: undefined,
